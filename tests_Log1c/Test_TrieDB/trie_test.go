@@ -26,7 +26,7 @@ func TestStore_TrieDB(t *testing.T) {
 	defer dbase.Close()
 
 	random := rand.New(rand.NewSource(0))
-	size := 100
+	size := 1000000
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
 		k := make([]byte, 20)
@@ -64,7 +64,7 @@ func TestRootGet(t *testing.T) {
 	defer dbase.Close()
 
 	random := rand.New(rand.NewSource(0))
-	size := 100
+	size := 1000
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
 		k := make([]byte, 20)
@@ -80,4 +80,42 @@ func TestRootGet(t *testing.T) {
 		fmt.Println(val)
 	}
 
+}
+
+func Benchmark_Get_Value_From_TrieDB(b *testing.B) {
+
+	s := "0xe75427e9da29b7eeabc44c2e1714e00fc02f9040235cda92f609447eefd420a3"
+	root := common.BytesToHash(common.FromHex(s))
+	//fmt.Println(root)
+	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
+
+	if err != nil {
+		fmt.Println("database create wrong!")
+	}
+	defer dbase.Close()
+
+	random := rand.New(rand.NewSource(0))
+	size := 1000000
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+
+	triedb := trie.NewDatabase(dbase)
+	tree, _ := trie.New(trie.TrieID(root), triedb)
+
+
+
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < size; j++ {
+
+			if j % 100 == 0 {
+				tree.TryGet(keys[j])
+			}
+
+		}
+	}
 }
