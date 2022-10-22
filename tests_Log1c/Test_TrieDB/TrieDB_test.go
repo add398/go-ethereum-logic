@@ -110,7 +110,7 @@ func Benchmark_Get_Value_From_TrieDB(b *testing.B) {
 	tree, _ := trie.New(trie.TrieID(root), triedb)
 
 
-
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < size; j++ {
 
