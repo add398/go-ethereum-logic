@@ -51,7 +51,9 @@ func TestStore_TrieDB(t *testing.T) {
 
 }
 
-func TestRootGet(t *testing.T) {
+
+
+func Test_RootGet(t *testing.T) {
 
 	s := "0x9665878971fd07f1e2af3387566057dc88c6842debadc841957213c88021a5a4"
 	root := common.BytesToHash(common.FromHex(s))

@@ -16,7 +16,7 @@ import (
 	"testing"
 )
 
-func Test_storeone(t *testing.T) {
+func Test_store_one(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
 		log.Println("database open fail")
@@ -26,7 +26,7 @@ func Test_storeone(t *testing.T) {
 	//defer dbase.Close()
 }
 
-func Test_readone(t *testing.T) {
+func Test_read_one(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 
 	if err != nil {
@@ -38,7 +38,7 @@ func Test_readone(t *testing.T) {
 	defer dbase.Close()
 }
 
-func Test_store100000000(t *testing.T) {
+func Test_store_100000000(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
 		log.Println("database open fail")
@@ -89,7 +89,7 @@ func Test_read_SOME(t *testing.T) {
 
 
 
-func Benchmark_readFROM_leveldb(b *testing.B) {
+func Benchmark_read_FROM_leveldb(b *testing.B) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
 		log.Println("database open fail")
@@ -117,10 +117,6 @@ func Benchmark_readFROM_leveldb(b *testing.B) {
 			//fmt.Println(v)
 		}
 	}
-
-
-
-
 
 }
 
