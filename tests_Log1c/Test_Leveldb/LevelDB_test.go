@@ -117,6 +117,7 @@ func Benchmark_read_FROM_leveldb(b *testing.B) {
 			//fmt.Println(v)
 		}
 	}
+	b.StopTimer()
 
 }
 

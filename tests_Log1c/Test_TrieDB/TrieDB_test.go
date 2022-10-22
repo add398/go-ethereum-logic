@@ -41,8 +41,7 @@ func TestStore_TrieDB(t *testing.T) {
 	for i :=0; i < size; i++ {
 		tree.Update(keys[i], []byte("1qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm"))
 	}
-	root, nodes, _ := tree.Commit(false)
-	triedb.Update(trie.NewWithNodeSet(nodes))
+	root, _, _ := tree.Commit(false)
 	triedb.Commit(root, true, nil)
 
 	fmt.Println(root)
@@ -120,4 +119,5 @@ func Benchmark_Get_Value_From_TrieDB(b *testing.B) {
 
 		}
 	}
+	b.StopTimer()
 }
