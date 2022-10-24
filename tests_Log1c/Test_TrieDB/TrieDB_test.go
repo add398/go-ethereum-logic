@@ -17,6 +17,7 @@ import (
 	"testing"
 )
 
+
 func TestStore_TrieDB(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 
@@ -54,7 +55,7 @@ func TestStore_TrieDB(t *testing.T) {
 
 func Test_RootGet(t *testing.T) {
 
-	s := "0x9665878971fd07f1e2af3387566057dc88c6842debadc841957213c88021a5a4"
+	s := "0xe75427e9da29b7eeabc44c2e1714e00fc02f9040235cda92f609447eefd420a3"
 	root := common.BytesToHash(common.FromHex(s))
 	fmt.Println(root)
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
@@ -121,3 +122,75 @@ func Benchmark_Get_Value_From_TrieDB(b *testing.B) {
 	}
 	b.StopTimer()
 }
+
+
+func test_Store_TrieDB(t *testing.T, size int, dir string) {
+
+	dbase, err := leveldb.New(dir,8,500,"cc",false)
+	if err != nil {
+		fmt.Println("database create wrong!")
+	}
+	defer dbase.Close()
+
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+	triedb := trie.NewDatabase(dbase)
+	tree := trie.NewEmpty(triedb)
+
+	for i :=0; i < size; i++ {
+		tree.Update(keys[i], []byte("1qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm"))
+	}
+	root, _, _ := tree.Commit(false)
+	triedb.Commit(root, true, nil)
+
+	fmt.Println(root)
+
+}
+
+
+
+
+func benchmark_Get_TrieDB(b *testing.B, size int, dir string, str string) {
+	root := common.BytesToHash(common.FromHex(str))
+	//fmt.Println(root)
+	dbase, err := leveldb.New(dir,8,500,"cc",false)
+	if err != nil {
+		fmt.Println("database create wrong!")
+	}
+	defer dbase.Close()
+
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+
+	triedb := trie.NewDatabase(dbase)
+	tree, _ := trie.New(trie.TrieID(root), triedb)
+
+	count := size / 10000
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < count; j++ {
+			if j % count == 0 {
+				tree.TryGet(keys[j])
+			}
+
+		}
+	}
+	b.StopTimer()
+}
+
+

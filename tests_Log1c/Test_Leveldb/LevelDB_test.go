@@ -38,7 +38,7 @@ func Test_read_one(t *testing.T) {
 	defer dbase.Close()
 }
 
-func Test_store_100000000(t *testing.T) {
+func Test_store_100(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
 		log.Println("database open fail")
@@ -60,13 +60,12 @@ func Test_store_100000000(t *testing.T) {
 	defer dbase.Close()
 }
 
-
-
 func Test_read_SOME(t *testing.T) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
 		log.Println("database open fail")
 	}
+	defer dbase.Close()
 	random := rand.New(rand.NewSource(0))
 	size := 100
 	keys := make([][]byte, size)
@@ -83,7 +82,7 @@ func Test_read_SOME(t *testing.T) {
 	}
 
 
-	defer dbase.Close()
+
 }
 
 
@@ -115,6 +114,60 @@ func Benchmark_read_FROM_leveldb(b *testing.B) {
 				_, _ = dbase.Get(keys[j])
 			}
 			//fmt.Println(v)
+		}
+	}
+	b.StopTimer()
+
+}
+
+
+
+func test_store_Size(t *testing.T, size int, dir string) {
+	dbase, err := leveldb.New(dir,8,500,"cc",false)
+	if err != nil {
+		log.Println("database open fail")
+	}
+	defer dbase.Close()
+
+	random := rand.New(rand.NewSource(0))
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+	for i := 0; i < size; i++ {
+		dbase.Put(keys[i], []byte("qwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnmqwertyuioplkjhgfdsazxcvbnm"))
+	}
+
+}
+
+
+func benchmark_read_FROM_leveldb(b *testing.B, size int, dir string) {
+	dbase, err := leveldb.New(dir,8,500,"cc",false)
+	if err != nil {
+		log.Println("database open fail")
+	}
+	defer dbase.Close()
+
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+	count := size / 10000
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < size; j++ {
+			if j % count == 0 {
+				_, _ = dbase.Get(keys[j])
+			}
 		}
 	}
 	b.StopTimer()
