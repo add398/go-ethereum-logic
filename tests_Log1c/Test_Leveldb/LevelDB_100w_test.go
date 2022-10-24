@@ -13,7 +13,7 @@ import (
 )
 
 func Test_store_100w(t *testing.T) {
-	size := 1000000
+	size := 2000000
 	dir := "store100w.logfile"
 
 	test_store_Size(t, size, dir)
@@ -23,7 +23,7 @@ func Test_store_100w(t *testing.T) {
 
 
 func Benchmark_read_FROM_leveldb_100w(b *testing.B) {
-	size := 1000000
+	size := 2000000
 	dir := "store100w.logfile"
 	benchmark_read_FROM_leveldb(b, size, dir)
 }

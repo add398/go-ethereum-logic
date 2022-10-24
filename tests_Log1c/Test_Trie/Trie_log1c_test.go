@@ -21,7 +21,7 @@ func Test_Trie_Store(t *testing.T) {
 	triedb := trie.NewDatabase(diskdb)
 	random := rand.New(rand.NewSource(0))
 
-	size := 10000000
+	size := 100
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
 		k := make([]byte, 20)
@@ -45,12 +45,11 @@ func Test_Trie_Store(t *testing.T) {
 
 }
 
-func Benchmark_Test_Trie(b *testing.B) {
+func benchmark_read_from_trie(b *testing.B, size int) {
 	diskdb := memorydb.New()
 	triedb := trie.NewDatabase(diskdb)
 	random := rand.New(rand.NewSource(0))
 
-	size := 20000000
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
 		k := make([]byte, 20)
@@ -58,21 +57,25 @@ func Benchmark_Test_Trie(b *testing.B) {
 		keys[i] = k
 	}
 
+	value := make([]byte, 0)
+	for i := 0; i < 5; i++ {
+		value = append(value, keys[i]...)
+	}
+	//fmt.Println(value)
+
 	tree := trie.NewEmpty(triedb)
 	for i := 0; i < size; i++ {
-
-		tree.Update(keys[i], []byte("1"))
+		tree.Update(keys[i], []byte(""))
 	}
 
+	count := size / 10000
 	b.ResetTimer()
 	for j := 0; j < b.N; j++ {
 		for i := 0; i < size; i++ {
-			if i % 2000 == 0 {
+			if i % count == 0 {
 				tree.TryGet(keys[i])
 			}
-			//val, _ := tree.TryGet(keys[i])
-			//fmt.Println(keys[i])
-			//fmt.Println(val)
+
 		}
 	}
 	b.StopTimer()
