@@ -88,6 +88,8 @@ func Test_read_SOME(t *testing.T) {
 
 
 
+
+
 func Benchmark_read_FROM_leveldb(b *testing.B) {
 	dbase, err := leveldb.New("store.logfile",8,500,"cc",false)
 	if err != nil {
