@@ -21,7 +21,9 @@ import (
 
 func TestUpdate(t *testing.T) {
 	// 46684549 条交易地址
-	FilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
+	//FilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
+	FilePath := "D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\address.txt"
+
 	File, err := os.Open(FilePath)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
@@ -33,7 +35,7 @@ func TestUpdate(t *testing.T) {
 	dir := "update.logfile"
 
 	//  keys
-	size := 5000000
+	size := 40000000
 	keys := make([]string, size)
 	for i := 0; i < size; i++ {
 		str, _ := reader.ReadString('\n') //读到一个换行就结束
@@ -73,14 +75,14 @@ func TestUpdate(t *testing.T) {
 }
 
 
-// 0xf364913f32e1e1ed31c5d36ff17828a4a31caad8fa052f7c4e1fc365657c788e
+// 0x892c2ecf0547f8e26e5c6fd7e663fd05c6bf1c34278d84bf6b7e929328c03cde
 /*
 test performance from a update trieDB
 */
 func Benchmark_read_FROM_TrieDB_update_100w(b *testing.B) {
-	size := 5000000
+	size := 40000000
 	dir := "update.logfile"
-	str := "0x713d94201118ccdd277384f8b2b26ba15a2ae0ee718c60bf224daf48051ccfde"
+	str := "0x892c2ecf0547f8e26e5c6fd7e663fd05c6bf1c34278d84bf6b7e929328c03cde"
 	benchmark_Get_TrieDB(b, size, dir, str)
 }
 
@@ -98,7 +100,7 @@ func benchmark_Get_TrieDB(b *testing.B, size int, dir string, r string) {
 	tree, _ := trie.New(trie.TrieID(root), triedb)
 
 
-	FilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
+	FilePath := "D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\address.txt"
 	File, err := os.Open(FilePath)
 	if err != nil {
 		fmt.Println("文件打开失败", err)

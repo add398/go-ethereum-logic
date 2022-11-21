@@ -17,7 +17,7 @@ import (
 
 func main() {
 	//打开文件
-	file, err := os.Open("/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/from_to.txt")
+	file, err := os.Open("D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\from_to.txt")
 	if err != nil {
 		fmt.Println("文件打开失败 = ", err)
 	}
@@ -27,7 +27,7 @@ func main() {
 	reader := bufio.NewReader(file)
 
 
-	writeFilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
+	writeFilePath := "D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\address.txt"
 	writeFile, err := os.OpenFile(writeFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
@@ -42,10 +42,13 @@ func main() {
 
 	for {
 		str, err := reader.ReadString('\n') //读到一个换行就结束
+		if err == io.EOF {                  //io.EOF 表示文件的末尾
+			break
+		}
 
 		if count == 0 {
 
-		}else if count > 0 && count < 5000001{
+		}else {
 			from := str[:43]
 			to := str[43:]
 			//fmt.Println(str)
@@ -56,17 +59,13 @@ func main() {
 			write.WriteString("\n")
 			write.WriteString(to)
 
-		}else if count == 5000001 {
-			break
 		}
 
 		count++
 
 
 
-		if err == io.EOF {                  //io.EOF 表示文件的末尾
-			break
-		}
+
 	}
 	//Flush将缓存的文件真正写入到文件中
 	write.Flush()
