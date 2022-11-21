@@ -21,7 +21,7 @@ import (
 
 func TestUpdate(t *testing.T) {
 	// 46684549 条交易地址
-	FilePath := "D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\address.txt"
+	FilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
 	File, err := os.Open(FilePath)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
@@ -30,12 +30,10 @@ func TestUpdate(t *testing.T) {
 	defer File.Close()
 	//创建一个 *Reader ， 是带缓冲的
 	reader := bufio.NewReader(File)
-
 	dir := "update.logfile"
 
-
 	//  keys
-	size := 10000000
+	size := 5000000
 	keys := make([]string, size)
 	for i := 0; i < size; i++ {
 		str, _ := reader.ReadString('\n') //读到一个换行就结束
@@ -80,9 +78,9 @@ func TestUpdate(t *testing.T) {
 test performance from a update trieDB
 */
 func Benchmark_read_FROM_TrieDB_update_100w(b *testing.B) {
-	size := 10000
+	size := 5000000
 	dir := "update.logfile"
-	str := "0xc51bd935560a00c60ca3c582aebd5803af7d72396fcb69919bd1b08935675641"
+	str := "0x713d94201118ccdd277384f8b2b26ba15a2ae0ee718c60bf224daf48051ccfde"
 	benchmark_Get_TrieDB(b, size, dir, str)
 }
 
@@ -100,7 +98,7 @@ func benchmark_Get_TrieDB(b *testing.B, size int, dir string, r string) {
 	tree, _ := trie.New(trie.TrieID(root), triedb)
 
 
-	FilePath := "D:\\Code\\go-ethereum-logic\\tests_Log1c\\Test_dataset\\dataset\\address.txt"
+	FilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
 	File, err := os.Open(FilePath)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
@@ -115,7 +113,7 @@ func benchmark_Get_TrieDB(b *testing.B, size int, dir string, r string) {
 		keys[i] = str
 	}
 
-	fmt.Println(keys)
+	//fmt.Println(keys)
 
 
 
@@ -125,9 +123,9 @@ func benchmark_Get_TrieDB(b *testing.B, size int, dir string, r string) {
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < size; j++ {
 			if j % count == 0 {
-				ans, _ := tree.TryGet([]byte(keys[j]))
-				fmt.Println(keys[j])
-				fmt.Println(ans)
+				_, _ = tree.TryGet([]byte(keys[j]))
+				//fmt.Println(keys[j])
+				//fmt.Println(ans)
 			}
 
 		}
