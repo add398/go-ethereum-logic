@@ -19,7 +19,9 @@ import (
 
 )
 
-func Test_start_update_100w(t *testing.T) {
+
+// 创建 trieDB
+func Test_start_init_TrieDB(t *testing.T) {
 	size := 1000000
 	dir := "update.logfile"
 
@@ -123,13 +125,15 @@ func test_get_and_update_TrieDB(size int, dir string, str_root string, value str
 
 	root2 := fmt.Sprint(root)
 	fmt.Println("root", root)
-	fmt.Println("root2", root2)
 
 	return root2
 
 }
 
 
+/*
+test performance from a update trieDB
+ */
 func Benchmark_read_FROM_TrieDB_update_100w(b *testing.B) {
 	size := 1000000
 	dir := "update.logfile"
