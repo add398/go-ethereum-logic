@@ -17,7 +17,7 @@ import (
 
 func main() {
 	//打开文件
-	file, err := os.Open("dataset/from_to.txt")
+	file, err := os.Open("/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/from_to.txt")
 	if err != nil {
 		fmt.Println("文件打开失败 = ", err)
 	}
@@ -27,7 +27,7 @@ func main() {
 	reader := bufio.NewReader(file)
 
 
-	writeFilePath := "dataset/address.txt"
+	writeFilePath := "/Users/log1c/Code/go-ethereum-logic/tests_Log1c/Test_dataset/dataset/address.txt"
 	writeFile, err := os.OpenFile(writeFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
@@ -36,10 +36,6 @@ func main() {
 	defer writeFile.Close()
 	//写入文件时，使用带缓存的 *Writer
 	write := bufio.NewWriter(writeFile)
-
-	//for i := 0; i < 5; i++ {
-	//	write.WriteString("http://c.biancheng.net/golang/ \n")
-	//}
 
 
 	count := 0
@@ -51,15 +47,14 @@ func main() {
 
 		}else if count > 0 && count < 5000001{
 			from := str[:43]
-			to := str[43:85]
-			fmt.Println(str)
-			fmt.Println(from)
-			fmt.Println(to)
+			to := str[43:]
+			//fmt.Println(str)
+			//fmt.Println(from)
+			//fmt.Println(to)
 
 			write.WriteString(from)
 			write.WriteString("\n")
 			write.WriteString(to)
-			write.WriteString("\n")
 
 		}else if count == 5000001 {
 			break
@@ -67,7 +62,6 @@ func main() {
 
 		count++
 
-		write.Flush()
 
 
 		if err == io.EOF {                  //io.EOF 表示文件的末尾
@@ -75,6 +69,8 @@ func main() {
 		}
 	}
 	//Flush将缓存的文件真正写入到文件中
+	write.Flush()
+
 
 	fmt.Println(count)
 	fmt.Println("文件读取结束...")
