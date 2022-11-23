@@ -11,6 +11,7 @@ package Test_MPT_height
 import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/core/rawdb"
+	"math/rand"
 	"testing"
 )
 
@@ -38,11 +39,10 @@ func Test_MPT_height(t *testing.T) {
 	size := len(ks)
 	for i := 0; i < size; i++ {
 		trie.Update(ks[i], []byte("value"))
-
 	}
 
 	for i := 0; i < size; i++ {
-		fmt.Println("key",ks[i])
+		fmt.Println("key", keybytesToHex(ks[i]))
 
 		_, height := trie.Get(ks[i])
 		fmt.Println( "height",height)
@@ -105,3 +105,31 @@ func Test_tiny_2_mpt(t *testing.T) {
 
 }
 
+
+
+func Test_MPT_height_10w(t *testing.T) {
+	size := 10000000
+	trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+
+	for i := 0; i < size; i++ {
+		trie.Update(keys[i], []byte("value"))
+	}
+
+	for i := 0; i <  100; i++ {
+		fmt.Println("key", keybytesToHex(keys[i]))
+		_, height := trie.Get(keys[i])
+		fmt.Println( "height",height)
+	}
+
+
+
+}
