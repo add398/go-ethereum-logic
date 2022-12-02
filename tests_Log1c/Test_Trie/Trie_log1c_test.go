@@ -21,20 +21,22 @@ func Test_Trie_Store(t *testing.T) {
 	triedb := trie.NewDatabase(diskdb)
 	random := rand.New(rand.NewSource(0))
 
-	size := 100
+	size := 100000
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
 		k := make([]byte, 20)
 		random.Read(k)
 		keys[i] = k
 	}
+	v := make([]byte, 100)
+	random.Read(v)
 
 	fmt.Println(1)
 
 	tree := trie.NewEmpty(triedb)
 	for i := 0; i < size; i++ {
 
-		tree.Update(keys[i], []byte("1"))
+		tree.Update(keys[i], v)
 	}
 
 	fmt.Println(2)
@@ -69,6 +71,7 @@ func benchmark_read_from_trie(b *testing.B, size int) {
 	}
 
 	count := size / 10000
+	b.ReportAllocs()
 	b.ResetTimer()
 	for j := 0; j < b.N; j++ {
 		for i := 0; i < size; i++ {
