@@ -21,7 +21,7 @@ func Benchmark_space(b *testing.B) {
 	triedb := trie.NewDatabase(diskdb)
 	random := rand.New(rand.NewSource(0))
 
-	size := 1000000
+	size := 10000
 
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
@@ -75,3 +75,43 @@ func Benchmark_read_from_trie_10000w(b *testing.B) {
 	size := 100000000
 	benchmark_read_from_trie(b, size)
 }
+
+
+
+func benchmark_read_from_trie(b *testing.B, size int) {
+	diskdb := memorydb.New()
+	triedb := trie.NewDatabase(diskdb)
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+	value := make([]byte, 0)
+	for i := 0; i < 5; i++ {
+		value = append(value, keys[i]...)
+	}
+	//fmt.Println(value)
+
+	tree := trie.NewEmpty(triedb)
+	for i := 0; i < size; i++ {
+		tree.Update(keys[i], []byte(""))
+	}
+
+	count := size / 10000
+	b.ReportAllocs()
+	b.ResetTimer()
+	for j := 0; j < b.N; j++ {
+		for i := 0; i < size; i++ {
+			if i % count == 0 {
+				tree.TryGet(keys[i])
+			}
+
+		}
+	}
+	b.StopTimer()
+}
+
