@@ -9,16 +9,19 @@
 package Test_Trie
 
 import (
+	"fmt"
 	"github.com/ethereum/go-ethereum/ethdb/memorydb"
 	"github.com/ethereum/go-ethereum/trie"
 	"math/rand"
 	"testing"
 )
 
-func Test_random_key_value_space(t *testing.T) {
+func Benchmark_space(b *testing.B) {
 	diskdb := memorydb.New()
 	triedb := trie.NewDatabase(diskdb)
 	random := rand.New(rand.NewSource(0))
+
+	size := 1000000
 
 	keys := make([][]byte, size)
 	for i := 0; i < size; i++ {
@@ -27,16 +30,25 @@ func Test_random_key_value_space(t *testing.T) {
 		keys[i] = k
 	}
 
-	value := make([]byte, 0)
-	for i := 0; i < 5; i++ {
-		value = append(value, keys[i]...)
-	}
+	value := make([]byte, 100)
+	random.Read(value)
 	//fmt.Println(value)
 
 	tree := trie.NewEmpty(triedb)
+
 	for i := 0; i < size; i++ {
-		tree.Update(keys[i], []byte(""))
+		tree.Update(keys[i], value)
 	}
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < size; i++ {
+		tree.Update(keys[i], value)
+	}
+
+
+	fmt.Println("over")
 }
 
 
