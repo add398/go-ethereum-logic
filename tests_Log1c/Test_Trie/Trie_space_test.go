@@ -68,7 +68,7 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 		addresses[i] = k
 	}
 
-	value = make([]byte, 10)
+	value = make([]byte, 100)
 	random.Read(value)
 	return
 }
