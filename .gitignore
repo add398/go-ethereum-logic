@@ -16,6 +16,9 @@
 build/_vendor/pkg
 *.logfile
 *.txt
+*.csv
+
+
 
 #*
 .#*
