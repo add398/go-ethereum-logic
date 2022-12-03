@@ -10,11 +10,86 @@ package Test_Trie
 
 import (
 	"fmt"
+	"github.com/ethereum/go-ethereum/core/rawdb"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethdb/memorydb"
 	"github.com/ethereum/go-ethereum/trie"
 	"math/rand"
 	"testing"
+	"time"
 )
+
+
+
+func Benchmark_test_space(b *testing.B) {
+	size := 100000
+	acc, val := makeAccounts(size)
+	for i := 0; i < b.N; i++ {
+		benchmark_space(b, acc, val)
+	}
+	// benchmarkCommitAfterHashFixedSize 参考
+
+	//b.ReportAllocs()
+	//trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
+	//for i := 0; i < len(addresses); i++ {
+	//	trie.Update(crypto.Keccak256(addresses[i][:]), accounts[i])
+	//}
+	//// Insert the accounts into the trie and hash it
+	//trie.Hash()
+	//b.StartTimer()
+	//trie.Commit(false)
+	//b.StopTimer()
+}
+
+
+func benchmark_space(b *testing.B, addresses [][]byte, value []byte)  {
+	b.ReportAllocs()
+	b.StartTimer()
+
+	tree := art.New()
+	for i := 0; i < len(addresses); i++ {
+		tree.Insert(addresses[i], value)
+	}
+
+	b.StopTimer()
+}
+
+
+
+
+
+
+
+func test_art_space(testSize int)  {
+	size := 500000
+	address, value := makeAccounts(size)
+
+	tree := art.New()
+	for i := 0; i < testSize; i++ {
+		tree.Insert(address[i], value)
+	}
+
+	time.Sleep(1 * time.Minute)
+}
+
+func makeAccounts(size int) (addresses [][]byte, value []byte) {
+	// Make the random benchmark deterministic
+	random := rand.New(rand.NewSource(0))
+	addresses = make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		addresses[i] = k
+	}
+
+	value = make([]byte, 100)
+	random.Read(value)
+	return
+}
+
+
+
+
 
 func Test_Trie_Store(t *testing.T) {
 	diskdb := memorydb.New()
