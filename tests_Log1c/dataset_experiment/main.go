@@ -52,7 +52,7 @@ func get_address(name string, size int) (keys [][]byte, value []byte) {
 
 func main() {
 	name := "1300wto1325w_BTXN"
-	size := 50000000
+	size := 5000000
 	keys, value := get_address(name, size)
 	fmt.Println(value)
 	fmt.Println("address over")
@@ -60,6 +60,7 @@ func main() {
 	//tree := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 	triedb := trie.NewDatabase(memorydb.New())
 	tree := trie.NewEmpty(triedb)
+
 
 	for i := 0; i < size; i++ {
 		//if i % 1000000 == 0 {
