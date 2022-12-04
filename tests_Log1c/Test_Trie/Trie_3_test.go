@@ -16,7 +16,7 @@ import (
 )
 
 func Benchmark_3_10000w(b *testing.B) {
-	size := 10000000
+	size := 40000000
 	keys, val := makeAccounts(size)
 	for i := 0; i < b.N; i++ {
 		benchmark_3_trie(b, keys, val)
@@ -36,7 +36,7 @@ func benchmark_3_trie(b *testing.B, keys [][]byte, value []byte) {
 
 	b.StartTimer()
 	for i := 0; i < size; i++ {
-		if i % 10000 == 0 {
+		if i % 1000000 == 0 {
 			fmt.Println( i )
 		}
 		tree.Update(keys[i], value)

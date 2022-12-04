@@ -67,7 +67,7 @@ func Benchmark_read_from_trie_100w(b *testing.B) {
 }
 
 func Benchmark_read_from_trie_1000w(b *testing.B) {
-	size := 10000000
+	size := 20000000
 	benchmark_read_from_trie(b, size)
 }
 
@@ -102,7 +102,7 @@ func benchmark_read_from_trie(b *testing.B, size int) {
 	}
 
 	count := size / 10000
-	b.ReportAllocs()
+
 	b.ResetTimer()
 	for j := 0; j < b.N; j++ {
 		for i := 0; i < size; i++ {

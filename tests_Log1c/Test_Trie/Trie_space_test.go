@@ -19,13 +19,12 @@ import (
 
 
 func Benchmark_test_space(b *testing.B) {
-	size := 100000
+	size := 1000000
 	acc, val := makeAccounts(size)
 	for i := 0; i < b.N; i++ {
 		benchmark_space(b, acc, val)
 	}
 	// 参考  benchmarkCommitAfterHashFixedSize
-
 	fmt.Println("over")
 }
 
@@ -36,9 +35,9 @@ func benchmark_space(b *testing.B, addresses [][]byte, value []byte)  {
 
 	trie := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 	for i := 0; i < len(addresses); i++ {
-		if i % 100 == 0 {
-			fmt.Println(i )
-		}
+		//if i % 100 == 0 {
+		//	fmt.Println(i )
+		//}
 		trie.Update(addresses[i], value)
 	}
 	//v := trie.Get(addresses[0])
