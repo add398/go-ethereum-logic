@@ -52,7 +52,7 @@ func get_address(name string, size int) (keys [][]byte, value []byte) {
 
 func main() {
 	name := "1300wto1325w_BTXN"
-	size := 5000000
+	size := 45000000
 	keys, value := get_address(name, size)
 	fmt.Println(value)
 	fmt.Println("address over")
