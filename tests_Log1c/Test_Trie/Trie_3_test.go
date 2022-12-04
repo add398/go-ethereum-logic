@@ -16,7 +16,7 @@ import (
 )
 
 func Benchmark_3_10000w(b *testing.B) {
-	size := 20000000
+	size := 10000000
 	keys, val := makeAccounts(size)
 	for i := 0; i < b.N; i++ {
 		benchmark_3_trie(b, keys, val)
