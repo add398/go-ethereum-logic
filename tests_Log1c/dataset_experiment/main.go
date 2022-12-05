@@ -52,7 +52,7 @@ func get_address( size int) (keys [][]byte) {
 }
 
 func Space_count(num int) {
-	// 计算 空间的实验
+	// 计算 空间的实验  有 重复地址
 	//name := "1300wto1325w_BTXN"
 	size := num
 	keys := get_address(size)
