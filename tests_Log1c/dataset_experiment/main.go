@@ -181,9 +181,8 @@ func time_count_disk (num int) {
 			triedb.Update(trie.NewWithNodeSet(nodes))
 			triedb.Commit(root, true, nil)
 			tree, _ = trie.New(trie.TrieID(root), triedb)
-			go func() {
-				fmt.Println(i)
-			}()
+			fmt.Println(i)
+
 			elapsed1 := time.Since(start)
 			//fmt.Println("该函数执行完成耗时：", elapsed1)
 			times[i / 5000] = elapsed1.Milliseconds()
