@@ -38,7 +38,7 @@ func main() {
 	//tree := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 	tree := trie.NewEmpty(trie.NewDatabase(rawdb.NewMemoryDatabase()))
 
-	size = 40000000
+	size = 20000000
 
 	for i := 0; i < size; i++ {
 		if i % 1000000 == 0 {
@@ -48,5 +48,5 @@ func main() {
 	}
 
 	fmt.Println("over")
-	time.Sleep(time.Minute)
+	time.Sleep(time.Hour)
 }
