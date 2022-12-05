@@ -198,7 +198,44 @@ func time_count_disk (num int) {
 
 
 
+func count_address( size int) (keys [][]byte) {
+	// 一次获取所有的 address
+	// tests_Log1c/Test_dataset/dataset/1100wto1200w_BlockTransaction_Address.csv
+	file, err := os.Open("tests_Log1c/dataset/1100wto1200w_BlockTransaction_Address.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1
+	hashmap := map[string]struct{}{}
+
+	keys = make([][]byte, size)
+	for i := 0; ; i++ {
+		if i == size {
+			break
+		}
+		csvdata, err := reader.Read() // 按行读取数据,可控制读取部分
+		if err == io.EOF {
+			fmt.Println("总行数 ", i)
+			break
+		}
+		address := csvdata[0]
+		addbyte := StringTobyte(address)
+
+		hashmap[address] = struct{}{}
+
+		keys[i] = addbyte
+	}
+
+	fmt.Println(len(hashmap))
+	return
+}
+
 func main() {
-	num := 50000000
-	time_count_disk(num)
+	//num := 50000000
+	//time_count_disk(num)
+
+	count_address(50000000)
 }
