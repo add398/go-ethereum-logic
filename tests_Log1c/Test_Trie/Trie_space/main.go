@@ -38,7 +38,9 @@ func main() {
 	//tree := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 	tree := trie.NewEmpty(trie.NewDatabase(rawdb.NewMemoryDatabase()))
 
-	size = 20000000
+
+	size = 45000000
+
 
 	for i := 0; i < size; i++ {
 		if i % 1000000 == 0 {
