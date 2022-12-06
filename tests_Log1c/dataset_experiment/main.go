@@ -234,7 +234,7 @@ func count_address( size int) (keys [][]byte) {
 }
 
 func main() {
-	num := 50000000
+	num := 100000000
 	time_count_disk(num)
 
 	//count_address(50000000)
