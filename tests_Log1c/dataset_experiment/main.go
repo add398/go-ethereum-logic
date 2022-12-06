@@ -234,8 +234,8 @@ func count_address( size int) (keys [][]byte) {
 }
 
 func main() {
-	//num := 50000000
-	//time_count_disk(num)
+	num := 5000000
+	Space_count(num)
 
-	count_address(50000000)
+	//count_address(50000000)
 }
