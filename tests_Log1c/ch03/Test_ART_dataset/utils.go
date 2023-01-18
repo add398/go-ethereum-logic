@@ -6,7 +6,7 @@
  * @Date: 2022/12/4 15:46
  */
 
-package dataset
+package main
 
 import (
 	"encoding/csv"
