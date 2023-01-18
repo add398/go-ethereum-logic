@@ -95,15 +95,11 @@ func Test_tiny_3_art(t *testing.T) {
 		_, height := trie.Get(ks[i])
 		PrintHeight(height)
 	}
-
-
-
 }
 
 
-
 func Test_ART_height_10w(t *testing.T) {
-	size := 100000000
+	size := 50000000
 	trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
 	random := rand.New(rand.NewSource(0))
 
@@ -116,7 +112,57 @@ func Test_ART_height_10w(t *testing.T) {
 
 
 	for i := 0; i < size; i++ {
-		trie.Update(keys[i], []byte("value"))
+		trie.Update(keys[i], []byte("0"))
+		if i % 1000000 == 0 {
+			fmt.Println(i)
+
+		}
+	}
+
+
+	var h1, h2 float64
+
+
+	for i := 0; i < size; i++ {
+		count := size / 100
+		if i % count == 0 {
+			//fmt.Println("key", keybytesToHex(keys[i]))
+			_, height := trie.Get(keys[i])
+			//PrintHeight(height)
+			h1 += float64(height[0] + height[1] - 1)
+			h2 += float64(height[0]) / 2.0   + float64(height[1] - 1)
+		}
+	}
+
+	fmt.Println("MPT: ", h1 / 100)
+	fmt.Println("ART: ", h2 / 100)
+	
+}
+
+
+
+
+
+
+func Test_ART_height_10w(t *testing.T) {
+	size := 50000000
+	trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
+	random := rand.New(rand.NewSource(0))
+
+	keys := make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		keys[i] = k
+	}
+
+
+	for i := 0; i < size; i++ {
+		trie.Update(keys[i], []byte("0"))
+		if i % 1000000 == 0 {
+			fmt.Println(i)
+
+		}
 	}
 
 
