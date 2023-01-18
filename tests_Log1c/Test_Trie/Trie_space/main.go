@@ -32,14 +32,13 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 }
 
 func main() {
-	size := 50000000
+	size := 5000000
 	keys, value := makeAccounts(size)
 
 	//tree := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 	tree := trie.NewEmpty(trie.NewDatabase(rawdb.NewMemoryDatabase()))
 
 
-	size = 45000000
 
 
 	for i := 0; i < size; i++ {
