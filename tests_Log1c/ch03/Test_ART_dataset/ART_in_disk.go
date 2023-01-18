@@ -41,7 +41,7 @@ func time_count_disk (num int) {
 	//tree := trie.NewEmpty(trie.NewDatabase(memorydb.New()))
 
 	dir := "store.logfile"
-	dbase, _ := leveldb.New(dir,15360,500,"cc",false)
+	dbase, _ := leveldb.New(dir,2048,500,"cc",false)
 	triedb := trie.NewDatabase(dbase)
 	tree := trie.NewEmpty(triedb)
 
@@ -75,7 +75,7 @@ func time_count_disk (num int) {
 }
 
 func main() {
-	num := 100000000
+	num := 20000000
 	time_count_disk(num)
 
 	//count_address(50000000)
