@@ -103,7 +103,7 @@ func Test_tiny_3_art(t *testing.T) {
 
 
 func Test_ART_height_10w(t *testing.T) {
-	size := 100000
+	size := 100000000
 	trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
 	random := rand.New(rand.NewSource(0))
 
@@ -119,11 +119,34 @@ func Test_ART_height_10w(t *testing.T) {
 		trie.Update(keys[i], []byte("value"))
 	}
 
-	for i := 0; i <  100; i++ {
-		fmt.Println("key", keybytesToHex(keys[i]))
-		_, height := trie.Get(keys[i])
-		PrintHeight(height)
+
+	var h1, h2 float64
+
+
+	for i := 0; i < size; i++ {
+		count := size / 100
+		if i % count == 0 {
+			//fmt.Println("key", keybytesToHex(keys[i]))
+			_, height := trie.Get(keys[i])
+			//PrintHeight(height)
+			h1 += float64(height[0] + height[1] - 1)
+			h2 += float64(height[0]) / 2.0   + float64(height[1] - 1)
+		}
 	}
+
+	fmt.Println("MPT: ", h1 / 100)
+	fmt.Println("ART: ", h2 / 100)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
