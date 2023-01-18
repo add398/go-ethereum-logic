@@ -15,7 +15,8 @@ import (
 
 func main() {
 	start := time.Now() // 获取当前时间
-	time.Sleep(time.Second)
+	//time.Sleep(time.Second)
+	time.Sleep(time.Millisecond)
 	elapsed1 := time.Since(start)
 	fmt.Println("该函数执行完成耗时：", elapsed1)
 

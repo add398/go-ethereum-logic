@@ -98,8 +98,11 @@ func Test_tiny_3_art(t *testing.T) {
 }
 
 
-func Test_ART_height_10w(t *testing.T) {
-	size := 50000000
+func Test_ART_height_5000w(t *testing.T) {
+
+	// 实验  ART 的 高度
+
+	size := 10000000
 	trie := NewEmpty(NewDatabase(rawdb.NewMemoryDatabase()))
 	random := rand.New(rand.NewSource(0))
 
@@ -110,34 +113,47 @@ func Test_ART_height_10w(t *testing.T) {
 		keys[i] = k
 	}
 
+	nums1 , nums2 := []float64{} ,  []float64{}
+
+	var countHeight func(num int)
+	countHeight = func(num int) {
+		var h1, h2 float64
+
+		for i := 0; i < num; i++ {
+			count := num / 100
+			if i % count == 0 {
+				//fmt.Println("key", keybytesToHex(keys[i]))
+				_, height := trie.Get(keys[i])
+				//PrintHeight(height)
+				h1 += float64(height[0] + height[1] - 1)
+				h2 += float64(height[0]) / 2.0   + float64(height[1] - 1)
+			}
+		}
+
+		fmt.Println("MPT: ", h1 / 100)
+		fmt.Println("ART: ", h2 / 100)
+		nums1 = append(nums1, h1 / 100)
+		nums2 = append(nums2, h2 / 100)
+
+	}
+
 
 	for i := 0; i < size; i++ {
 		trie.Update(keys[i], []byte("0"))
-		if i % 1000000 == 0 {
+		if i % 10000 == 9999  {
 			fmt.Println(i)
-
+			countHeight(i)
 		}
 	}
 
+	fmt.Println(len(nums1))
+	fmt.Println(nums1)
+	fmt.Println(nums2)
 
-	var h1, h2 float64
 
-
-	for i := 0; i < size; i++ {
-		count := size / 100
-		if i % count == 0 {
-			//fmt.Println("key", keybytesToHex(keys[i]))
-			_, height := trie.Get(keys[i])
-			//PrintHeight(height)
-			h1 += float64(height[0] + height[1] - 1)
-			h2 += float64(height[0]) / 2.0   + float64(height[1] - 1)
-		}
-	}
-
-	fmt.Println("MPT: ", h1 / 100)
-	fmt.Println("ART: ", h2 / 100)
 	
 }
+
 
 
 
