@@ -15,7 +15,7 @@ import (
 	"os"
 )
 
-func get_address( size int) (keys [][]byte) {
+func get_address( size int) (keys [][]byte, value []byte) {
 	// 一次获取所有的 address
 	// tests_Log1c/Test_dataset/dataset/1100wto1200w_BlockTransaction_Address.csv
 	file, err := os.Open("tests_Log1c/dataset/1100wto1200w_BlockTransaction_Address.csv")
@@ -42,6 +42,11 @@ func get_address( size int) (keys [][]byte) {
 
 		keys[i] = addbyte
 	}
+	value = make([]byte, 0)
+	for i := 0; i < 5; i++ {
+		value = append(value, keys[i]...)
+	}
+	fmt.Println(len(value))
 
 	return
 }
