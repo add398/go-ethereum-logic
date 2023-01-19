@@ -42,6 +42,7 @@ func get_address( size int) (keys [][]byte) {
 
 		keys[i] = addbyte
 	}
+	fmt.Println("address over",  len(keys))
 
 	return
 }

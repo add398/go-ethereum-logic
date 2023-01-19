@@ -8,7 +8,6 @@
 
 package main
 
-import lru "github.com/hashicorp/golang-lru"
 
 type Cache interface {
 	Name() string
@@ -19,11 +18,11 @@ type Cache interface {
 
 
 type TwoQueue struct {
-	v *lru.TwoQueueCache
+	v *TwoQueueCache
 }
 
-func NewTwoQueue(size int) Cache {
-	cache, err := lru.New2Q(size)
+func NewTwoQueue(size int, ratio float64) Cache {
+	cache, err := New2Q(size, ratio)
 	if err != nil {
 		panic(err)
 	}
