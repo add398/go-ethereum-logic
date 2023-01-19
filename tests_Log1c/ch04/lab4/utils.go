@@ -46,11 +46,25 @@ func get_address( size int) (keys [][]byte, value []byte) {
 	for i := 0; i < 5; i++ {
 		value = append(value, keys[i]...)
 	}
-	fmt.Println(len(value))
+	fmt.Println(len(value), "address   over")
 
 	return
 }
 
+func ValueCompare(a, b  []byte) bool {
+	lena, lenb := len(a), len(b)
+	if lena != lenb{
+		return false
+	}else{
+		for i := 0; i < lena; i++ {
+			if a[i] != b[i] {
+				return false
+			}
+		}
+		return true
+	}
+	return true
+}
 
 
 
