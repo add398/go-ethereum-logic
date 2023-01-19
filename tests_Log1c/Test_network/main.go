@@ -38,9 +38,10 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 
 
 func main() {
-	size := 10000
+	size := 100
 	//keys, value := makeAccounts(size)
-	url := "192.168.18.101:8080/ping"
+	url := "http://192.168.18.101:8080/ping"
+	url2 := "http://192.168.18.101:8080/pong"
 
 
 	resp, err := http.Get(url)
@@ -52,14 +53,14 @@ func main() {
 	start := time.Now() // 获取当前时间
 
 	for i := 0; i < size; i++ {
-		resp, _ = http.Get(url)
+		resp, _ = http.Get(url2)
 
 	}
-	defer resp.Body.Close()
+
 	elapsed1 := time.Since(start)
-	fmt.Println("该函数执行完成耗时：", elapsed1.Milliseconds())
+	fmt.Println("该函数执行完成耗时：", elapsed1.Seconds())
 
-
+	defer resp.Body.Close()
 	ioutil.ReadAll(resp.Body)
 
 	if resp.StatusCode == 200 {
