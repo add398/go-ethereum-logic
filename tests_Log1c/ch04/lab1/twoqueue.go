@@ -21,8 +21,18 @@ type TwoQueue struct {
 	v *TwoQueueCache
 }
 
-func NewTwoQueue(size int, ratio float64) Cache {
-	cache, err := New2Q(size, ratio)
+func NewTwoQueue(size int) Cache {
+	cache, err := New2Q(size )
+	if err != nil {
+		panic(err)
+	}
+	return &TwoQueue{
+		v: cache,
+	}
+}
+
+func NewTwoQueueWithParams(size int, recentRatio, ghostRatio float64) Cache {
+	cache, err := New2QParams(size , recentRatio, ghostRatio )
 	if err != nil {
 		panic(err)
 	}

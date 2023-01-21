@@ -45,9 +45,8 @@ type TwoQueueCache struct {
 
 // New2Q creates a new TwoQueueCache using the default
 // values for the parameters.
-func New2Q(size int, Ratio float64) (*TwoQueueCache, error) {
-	//return New2QParams(size, Default2QRecentRatio, Default2QGhostEntries)
-	return New2QParams(size, Ratio, Default2QGhostEntries)
+func New2Q(size int) (*TwoQueueCache, error) {
+	return New2QParams(size, Default2QRecentRatio, Default2QGhostEntries)
 }
 
 // New2QParams creates a new TwoQueueCache using the provided

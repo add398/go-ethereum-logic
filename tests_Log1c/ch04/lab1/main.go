@@ -11,7 +11,7 @@ package main
 import "fmt"
 
 func help1(cacheSize, size int, ratio float64)  float64 {
-	twoq := NewTwoQueue(cacheSize, ratio)
+	twoq := NewTwoQueueWithParams(cacheSize, ratio, 1- ratio)
 
 	keys := get_address(size)
 
@@ -41,7 +41,8 @@ func ChooseHigh() {
 	size := 10000000
 	cacheSize := 10000
 
-	nums := []float64{0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95}
+	nums := []float64{0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5,
+		0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95}
 
 	ans := []float64{}
 	for i := 0; i < len(nums); i++ {
