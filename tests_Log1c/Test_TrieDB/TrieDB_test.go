@@ -77,7 +77,7 @@ func address_and_value(size int) ([][]byte,  []byte){
 func read_triedb_time(size int, dir string, str string) {
 	root := common.BytesToHash(common.FromHex(str))
 	//fmt.Println(root)
-	dbase, err := leveldb.New(dir,5000,500,"cc",false)
+	dbase, err := leveldb.New(dir,32,500,"cc",false)
 	if err != nil {
 		fmt.Println("database create wrong!")
 	}
@@ -99,15 +99,12 @@ func read_triedb_time(size int, dir string, str string) {
 
 	start := time.Now() // 获取当前时间
 
-	ans := make([][]byte, 0)
 	for j := 0; j < size; j++ {
-		if j % count == 0 {
-			v := tree.Get(keys[j])
-			ans = append(ans, v)
+		if j % count == 199 {
+			tree.Get(keys[j])
 		}
 
 	}
-	fmt.Println(len(ans))
 	fmt.Println("tree experiment over")
 	//time.Sleep(1 * time.Millisecond)
 	elapsed := time.Since(start)
@@ -123,7 +120,7 @@ func read_triedb_time(size int, dir string, str string) {
 func benchmark_read_triedb(b *testing.B, size int, dir string, str string) {
 	root := common.BytesToHash(common.FromHex(str))
 	//fmt.Println(root)
-	dbase, err := leveldb.New(dir,5000,500,"cc",false)
+	dbase, err := leveldb.New(dir,32,500,"cc",false)
 	if err != nil {
 		fmt.Println("database create wrong!")
 	}
@@ -143,19 +140,17 @@ func benchmark_read_triedb(b *testing.B, size int, dir string, str string) {
 
 	count := size / 10000
 
-	ans := make([][]byte, 0)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < size; j++ {
-			if j % count == 0 {
-				v := tree.Get(keys[j])
-				ans = append(ans, v)
+			if j % count == 5 {
+				tree.Get(keys[j])
+
 			}
 
 		}
 	}
 
-	fmt.Println(len(ans))
 	b.StopTimer()
 }
 
