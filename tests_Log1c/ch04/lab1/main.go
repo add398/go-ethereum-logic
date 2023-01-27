@@ -46,7 +46,7 @@ func ChooseHigh() {
 
 	ans := []float64{}
 	for i := 0; i < len(nums); i++ {
-		a := help1(cacheSize,size, nums[i])
+		a := help1(cacheSize, size, nums[i])
 		ans = append(ans, a)
 	}
 
@@ -60,7 +60,7 @@ func Choose_cacheSize()  {
 
 	ans := []float64{}
 	for i := 0; i < len(cacheSize); i++ {
-		a := help1(cacheSize,size, nums[i])
+		a := help1(cacheSize,size)
 		ans = append(ans, a)
 	}
 
