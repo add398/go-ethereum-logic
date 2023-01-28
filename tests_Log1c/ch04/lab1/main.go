@@ -60,7 +60,7 @@ func Choose_cacheSize()  {
 
 	ans := []float64{}
 	for i := 0; i < len(cacheSize); i++ {
-		a := help1(cacheSize,size)
+		a := help1(cacheSize[i],size, 0.25)
 		ans = append(ans, a)
 	}
 
