@@ -19,6 +19,7 @@ package memorydb
 
 import (
 	"errors"
+	"fmt"
 	"sort"
 	"strings"
 	"sync"
@@ -202,6 +203,19 @@ func (db *Database) Len() int {
 	defer db.lock.RUnlock()
 
 	return len(db.db)
+}
+
+
+func (db *Database) Message_log1c()  {
+	db.lock.RLock()
+	defer db.lock.RUnlock()
+
+	for _, v := range db.db {
+		//fmt.Println(len(k))
+		fmt.Println(len(v))
+		fmt.Println(v)
+
+	}
 }
 
 // keyvalue is a key-value tuple tagged with a deletion field to allow creating
