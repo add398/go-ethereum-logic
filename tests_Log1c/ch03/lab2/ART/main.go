@@ -19,7 +19,7 @@ import (
 
 
 func main() {
-	size := 50000000
+	size := 5000000
 	keys, value := makeAccounts(size)
 	tree := art.New()
 
