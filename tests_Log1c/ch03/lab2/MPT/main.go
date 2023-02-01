@@ -23,12 +23,7 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 	return
 }
 
-
-
-
-
-
-func main() {
+func Search_In_MPT()  {
 
 	size := 20000000
 
@@ -67,6 +62,13 @@ func main() {
 		timeCount++
 	}
 	fmt.Println(times)
+}
+
+
+
+
+func main() {
+
 
 
 

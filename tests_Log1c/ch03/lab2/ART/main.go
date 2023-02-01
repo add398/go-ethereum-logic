@@ -14,12 +14,7 @@ import (
 	"time"
 )
 
-
-
-
-
-func main() {
-
+func Search_In_ART()  {
 	size := 20000000
 
 	keys, value := makeAccounts(size)
@@ -59,4 +54,11 @@ func main() {
 		timeCount++
 	}
 	fmt.Println(times)
+}
+
+
+
+
+func main() {
+
 }
