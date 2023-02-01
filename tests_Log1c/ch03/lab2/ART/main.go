@@ -19,71 +19,42 @@ import (
 
 
 func main() {
-	size := 50000000
+	size := 20000000
 	keys, value := makeAccounts(size)
-	tree := art.New()
+	//keys1, _ := makeAccounts(10000)
 
-	timeSize := 5
-	times := make([]int64, timeSize)
-	timeCount := size / timeSize
-
-	var Search_1w func( curSize int )
-	Search_1w = func( curSize int) {
+	var Search_1w func(tree art.Tree,  curSize int )
+	Search_1w = func( tree art.Tree, curSize int) {
 		search_size := 10000
 		fra := curSize / search_size  //  1000w / 1w = 1000
-		for i := 0; i < size; i++ {
+		count := 0
+		for i := 0; i < curSize; i++ {
 			if i % fra == 0 {
+				count++
 				tree.Search(keys[i])
 			}
 		}
+		fmt.Println(count)
 	}
 
+	sizeNum := []int{5000000, 10000000, 15000000, 20000000}
+	timeSize := 4
+	times := make([]int64, timeSize)
+	timeCount := 0
 
-
-	for i := 0; i < size; i++ {
-		tree.Insert(keys[i], value)
-		if i == timeCount - 1 {
-			fmt.Println(i)   // 9999999
-			start := time.Now() // 获取当前时间
-			Search_1w(i + 1)
-
-			elapsed := time.Since(start)
-			//fmt.Println("该函数执行完成耗时：", elapsed1)
-			times[i / timeCount] = elapsed.Microseconds()
-		}else if i == 2 * timeCount - 1 {
-			fmt.Println(i)
-			start := time.Now() // 获取当前时间
-			Search_1w(i + 1)
-			elapsed := time.Since(start)
-			//fmt.Println("该函数执行完成耗时：", elapsed1)
-			times[i / timeCount] = elapsed.Microseconds()
-		}else if i == 3 * timeCount - 1 {
-			fmt.Println(i)   // 9999999
-			start := time.Now() // 获取当前时间
-			Search_1w(i + 1)
-
-			elapsed := time.Since(start)
-			//fmt.Println("该函数执行完成耗时：", elapsed1)
-			times[i / timeCount] = elapsed.Microseconds()
-		}else if i == 4 * timeCount - 1 {
-			fmt.Println(i)   // 9999999
-			start := time.Now() // 获取当前时间
-			Search_1w(i + 1)
-
-			elapsed := time.Since(start)
-			//fmt.Println("该函数执行完成耗时：", elapsed1)
-			times[i / timeCount] = elapsed.Microseconds()
-		}else if i == 5 * timeCount - 1 {
-			fmt.Println(i)   // 9999999
-			start := time.Now() // 获取当前时间
-			Search_1w(i + 1)
-
-			elapsed := time.Since(start)
-			//fmt.Println("该函数执行完成耗时：", elapsed1)
-			times[i / timeCount] = elapsed.Microseconds()
+	for i := 0; i < 4; i++ {
+		tree := art.New()
+		for j := 0; j < sizeNum[i]; j++ {
+			tree.Insert(keys[i],value)
 		}
+		fmt.Println(sizeNum[i])   //
+		start := time.Now() // 获取当前时间
+		Search_1w(tree, sizeNum[i])
+
+		elapsed := time.Since(start)
+		fmt.Println("该函数执行完成耗时：", elapsed)
+		times[timeCount] = elapsed.Microseconds()
+		timeCount++
 	}
-
 	fmt.Println(times)
-
 }
