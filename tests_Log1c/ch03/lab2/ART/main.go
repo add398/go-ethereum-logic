@@ -19,7 +19,9 @@ import (
 
 
 func main() {
+
 	size := 20000000
+
 	keys, value := makeAccounts(size)
 	//keys1, _ := makeAccounts(10000)
 

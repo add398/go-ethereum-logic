@@ -29,7 +29,9 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 
 
 func main() {
+
 	size := 20000000
+
 	keys, value := makeAccounts(size)
 	var Search_1w func(tree *Trie,  curSize int )
 	Search_1w = func( tree *Trie, curSize int) {
