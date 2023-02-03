@@ -20,15 +20,17 @@ func help1(cacheSize, size int, ratio float64)  float64 {
 
 	for i := 0; i < cacheSize; i++ {
 		key := keys[i]
-		twoq.Set(string(key))
+		twoq.Add(key, key)
 	}
 
 	miss := 0
 	sum := 0
 	for i := cacheSize; i < size; i++ {
-		if twoq.Get(string(keys[i])) == false {
+		key := keys[i]
+		_, ok := twoq.Get(key)
+		if  ok == false {
 			miss++
-			twoq.Set(string(keys[i]))
+			twoq.Add(key, key)
 		}
 		sum++
 	}
@@ -56,6 +58,7 @@ func ChooseHigh() {
 	fmt.Println(ans)
 }
 
+// 选择合适的 ratio
 func Choose_cacheSize()  {
 	size := 10000000
 	cacheSize := []int{10000, 100000, 1000000}
@@ -72,6 +75,6 @@ func Choose_cacheSize()  {
 
 
 func main() {
-	help1()
+	Choose_cacheSize()
 	
 }
