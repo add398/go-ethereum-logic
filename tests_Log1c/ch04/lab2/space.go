@@ -10,7 +10,9 @@ package main
 
 import (
 	"github.com/ethereum/go-ethereum/tests_Log1c/ch04/lab2/ART_LRU"
+	art "github.com/plar/go-adaptive-radix-tree"
 	"math/rand"
+	"time"
 )
 
 func makeAccounts(size int) (addresses [][]byte, value []byte) {
@@ -28,11 +30,28 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 	return
 }
 
-func ART_LRU_Size(size int) {
+func ART_Size(size int) {
+	// ART 空间
 	keys, value := makeAccounts(size)
+	tree := art.New()
+	for _, term := range keys {
+		tree.Insert(art.Key(term), value)
+	}
 
 }
 
+
+func B_ART_Size(size int) {
+	//  B ART 空间
+	keys, value := makeAccounts(size)
+	tree := ART_LRU.New()
+	for _, term := range keys {
+		tree.Insert(ART_LRU.Key(term), value)
+	}
+
+}
+
+//  确认  LRU 可以使用
 func Test_ART_LRU() {
 	tree := ART_LRU.New()
 	terms := []string{"1", "2", "3", "4", "5"}
@@ -54,7 +73,11 @@ func Test_ART_LRU() {
 
 
 func main() {
+	size := 1000000
 
+	ART_Size(size)
+	//B_ART_Size(size)
+	time.Sleep(1 * time.Hour)
 }
 
 

@@ -8,10 +8,13 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	lru "github.com/hashicorp/golang-lru"
+)
 
 func help1(cacheSize, size int, ratio float64)  float64 {
-	twoq := NewTwoQueueWithParams(cacheSize, ratio, 1- ratio)
+	twoq, _ := lru.New2QParams(cacheSize, ratio, 1- ratio)
 
 	keys := get_address(size)
 
@@ -69,6 +72,6 @@ func Choose_cacheSize()  {
 
 
 func main() {
-
+	help1()
 	
 }
