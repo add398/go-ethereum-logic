@@ -36,7 +36,11 @@ func ART_Size(size int, keys [][]byte, value []byte, r int) {
 	// ART 空间  with  r
 	tree := art.New()
 	for i := 0; i < size; i++ {
-		tree.Insert(art.Key(keys[i][0:r]), value[:32])
+		if i % 1000000 == 0 {
+			fmt.Println(keys[i][:r])
+			fmt.Println(value[:32])
+		}
+		tree.Insert(art.Key(keys[i][:r]), value[:32])
 	}
 
 }
@@ -44,7 +48,7 @@ func ART_Size(size int, keys [][]byte, value []byte, r int) {
 func main() {
 	size := 10000000
 	keys, value := makeAccounts(size)
-	ART_Size(size, keys, value, 1)
+	ART_Size(size, keys, value, 5)
 
 	fmt.Println("over ")
 	//B_ART_Size(size)
