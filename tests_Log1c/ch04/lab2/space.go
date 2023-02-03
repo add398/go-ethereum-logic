@@ -9,6 +9,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/ethereum/go-ethereum/tests_Log1c/ch04/lab2/ART_LRU"
 	art "github.com/plar/go-adaptive-radix-tree"
 	"math/rand"
@@ -30,26 +31,49 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 	return
 }
 
-func ART_Size(size int) {
+func ART_Size(size int, keys [][]byte, value []byte) {
 	// ART 空间
-	keys, value := makeAccounts(size)
 	tree := art.New()
-	for _, term := range keys {
-		tree.Insert(art.Key(term), value)
+	for i := 0; i < size; i++ {
+		tree.Insert(art.Key(keys[i]), value)
 	}
 
 }
 
 
-func B_ART_Size(size int) {
+func B_ART_Size(size int, keys [][]byte, value []byte) {
 	//  B ART 空间
-	keys, value := makeAccounts(size)
+
 	tree := ART_LRU.New()
-	for _, term := range keys {
-		tree.Insert(ART_LRU.Key(term), value)
+	for i := 0; i < size; i++ {
+		tree.Insert(ART_LRU.Key(keys[i]), value)
 	}
 
+
 }
+
+
+
+
+
+func main() {
+	size := 10000000
+	size1 := 10000000
+	keys, value := makeAccounts(size)
+	//ART_Size(size1, keys, value)
+	B_ART_Size(size1, keys, value)
+	fmt.Println("over ")
+	time.Sleep(1 * time.Hour)
+}
+
+
+
+
+
+
+
+
+
 
 //  确认  LRU 可以使用
 func Test_ART_LRU() {
@@ -69,16 +93,5 @@ func Test_ART_LRU() {
 	tree.ForEachByLeaf()
 	//fmt.Println(tree)
 }
-
-
-
-func main() {
-	size := 1000000
-
-	ART_Size(size)
-	//B_ART_Size(size)
-	time.Sleep(1 * time.Hour)
-}
-
 
 
