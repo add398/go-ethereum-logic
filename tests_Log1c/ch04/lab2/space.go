@@ -54,6 +54,11 @@ func B_ART_Size(size int, keys [][]byte, value []byte) {
 
 
 
+/*
+在本章中，对矿工节点的AMT做了修改，
+*/
+
+
 
 
 func main() {
