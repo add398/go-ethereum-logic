@@ -16,8 +16,6 @@ import (
 func help1(cacheSize, size int, ratio float64, keys [][]byte)  float64 {
 	twoq, _ := lru.New2QParams(cacheSize, ratio, 1- ratio)
 
-
-
 	for i := 0; i < cacheSize; i++ {
 		key := keys[i]
 		twoq.Add(string(key), key)
@@ -26,6 +24,36 @@ func help1(cacheSize, size int, ratio float64, keys [][]byte)  float64 {
 	miss := 0
 	sum := 0
 	for i := cacheSize; i < size; i++ {
+		key := keys[i]
+		_, ok := twoq.Get(string(key))
+		if  ok == false {
+			miss++
+			twoq.Add(string(key), key)
+		}
+		sum++
+	}
+
+	fmt.Println("miss: ", miss,   "       sum: ", sum)
+	a := 1 -  float64(miss) / float64(sum)
+	fmt.Println("当 ratio 为: ",  ratio ,  "  命中率为 ： " , a )
+	return a
+}
+
+
+
+
+func help(cacheSize, size int, ratio float64, keys [][]byte)  float64 {
+	// 执行两次遍历
+	twoq, _ := lru.New2QParams(cacheSize, ratio, 1- ratio)
+
+	for i := 0; i < size; i++ {
+		key := keys[i]
+		twoq.Add(string(key), key)
+	}
+
+	miss := 0
+	sum := 0
+	for i := 0; i < size; i++ {
 		key := keys[i]
 		_, ok := twoq.Get(string(key))
 		if  ok == false {
@@ -59,8 +87,8 @@ func Choose_cacheSize()  {
 //  lab1
 func ChooseHigh() {
 	//   通过改变 ratio ，选择最高命中率
-	size := 10000000
-	cacheSize := 50000
+	size := 20000000
+	cacheSize := 10000
 
 	keys := get_address(size)
 
@@ -69,7 +97,7 @@ func ChooseHigh() {
 
 	ans := []float64{}
 	for i := 0; i < len(nums); i++ {
-		a := help1(cacheSize, size, nums[i], keys)
+		a := help(cacheSize, size, nums[i], keys)
 		ans = append(ans, a)
 	}
 
