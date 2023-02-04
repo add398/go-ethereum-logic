@@ -59,7 +59,7 @@ func Choose_cacheSize()  {
 //  lab1
 func ChooseHigh() {
 	//   通过改变 ratio ，选择最高命中率
-	size := 20000000
+	size := 10000000
 	cacheSize := 50000
 
 	keys := get_address(size)
