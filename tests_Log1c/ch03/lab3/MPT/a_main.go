@@ -1,30 +1,20 @@
-/**
- * @Author: Log1c
- * @Description:
- * @File:  lab
- * @Version: 1.0.0
- * @Date: 2023/2/27 20:49
- */
-
 package main
 
 import (
 	"fmt"
-	art "github.com/plar/go-adaptive-radix-tree"
 	"math/rand"
 	"time"
 )
 
 
 
-func build_ART(size int, keys [][]byte, value []byte)  int64 {
-	//keys, value := makeAccounts(size)
+func build_MPT(size int, keys [][]byte, value []byte)  int64 {
 
 	start := time.Now() // 获取当前时间
 
-	tree := art.New()
-	for j := 0; j < size; j++ {
-		tree.Insert(keys[j],value)
+	tree := NewTrie()
+	for i := 0; i < size; i++ {
+		tree.Put(keys[i], value)
 	}
 
 	elapsed := time.Since(start)
@@ -43,7 +33,7 @@ func build_ART(size int, keys [][]byte, value []byte)  int64 {
 
 func Space(size int)  {
 	keys, value := makeAccounts(10000000)
-	build_ART(size, keys, value)
+	build_MPT(size, keys, value)
 
 	time.Sleep(10 * time.Minute)
 }
@@ -75,3 +65,36 @@ func makeAccounts(size int) (addresses [][]byte, value []byte) {
 	return
 }
 
+
+
+
+
+
+
+func MPT_Size(size int, keys [][]byte, value []byte) {
+	// MPT 空间
+
+
+	tree := NewTrie()
+	for i := 0; i < size; i++ {
+		tree.Put(keys[i], value)
+	}
+
+}
+
+
+
+
+func main1() {
+	size := 10000000
+	size1 := 10000000
+	keys, value := makeAccounts(size)
+	MPT_Size(size1, keys, value)
+
+	fmt.Println("over ")
+	time.Sleep(1 * time.Hour)
+
+
+
+
+}
