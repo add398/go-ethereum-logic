@@ -102,12 +102,15 @@ func Search_In_MPT_1w(size int)  int64 {
 
 
 func main() {
-	times := make([]int64, 5)
-	times[0] = Search_In_MPT_1w(500000)
-	times[1] = Search_In_MPT_1w(1000000)
-	times[2] = Search_In_MPT_1w(1500000)
-	times[3] = Search_In_MPT_1w(2000000)
-	times[4] = Search_In_MPT_1w(2500000)
+	times := make([]int64, 8)
+	times[0] = Search_In_MPT_1w(1000000)
+	times[1] = Search_In_MPT_1w(2000000)
+	times[2] = Search_In_MPT_1w(3000000)
+	times[3] = Search_In_MPT_1w(4000000)
+	times[4] = Search_In_MPT_1w(5000000)
+	times[5] = Search_In_MPT_1w(10000000)
+	times[6] = Search_In_MPT_1w(15000000)
+	times[7] = Search_In_MPT_1w(20000000)
 
 	fmt.Println(times)
 
