@@ -49,7 +49,7 @@ func build_MBT(size int, keys [][]byte, value []byte)  int64 {
 func Space(size int)  {
 	keys, value := makeAccounts(10000000)
 	build_MBT(size, keys, value)
-
+	fmt.Println("build over")
 	time.Sleep(10 * time.Minute)
 }
 
@@ -58,7 +58,7 @@ func Space(size int)  {
 
 
 func main() {
-	Space(0)
+	Space(10000000)
 
 }
 

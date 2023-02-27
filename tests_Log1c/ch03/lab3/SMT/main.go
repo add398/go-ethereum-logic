@@ -6,7 +6,7 @@
  * @Date: 2023/2/27 21:16
  */
 
-package SMT
+package main
 
 import (
 	"crypto/sha256"
@@ -49,14 +49,14 @@ func build_SMT(size int, keys [][]byte, value []byte)  int64 {
 func Space(size int)  {
 	keys, value := makeAccounts(10000000)
 	build_SMT(size, keys, value)
-
+	fmt.Println("build over")
 	time.Sleep(10 * time.Minute)
 }
 
 
 
 func main() {
-	Space(0)
+	Space(10000000)
 }
 
 
