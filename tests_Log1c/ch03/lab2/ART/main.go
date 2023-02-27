@@ -15,7 +15,7 @@ import (
 )
 
 func Search_In_ART()  {
-	size := 20000000
+	size := 25000000
 
 	keys, value := makeAccounts(size)
 	//keys1, _ := makeAccounts(10000)
@@ -34,12 +34,12 @@ func Search_In_ART()  {
 		fmt.Println(count)
 	}
 
-	sizeNum := []int{5000000, 10000000, 15000000, 20000000}
-	timeSize := 4
+	sizeNum := []int{5000000, 10000000, 15000000, 20000000, 25000000}
+	timeSize := 5
 	times := make([]int64, timeSize)
 	timeCount := 0
 
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 5; i++ {
 		tree := art.New()
 		for j := 0; j < sizeNum[i]; j++ {
 			tree.Insert(keys[i],value)
@@ -58,7 +58,48 @@ func Search_In_ART()  {
 
 
 
+func Search_In_ART_1w(size int)  int64 {
+
+	search_size := 10000
+	keys, value := makeAccounts(size)
+	fra := size / search_size  //  500w / 1w = 500
+
+	count := 0
+
+	tree := art.New()
+	for j := 0; j < size; j++ {
+		tree.Insert(keys[j],value)
+	}
+
+	start := time.Now() // 获取当前时间
+
+	for i := 0; i < size; i++ {
+		if i % fra == 0 {
+			count++
+			tree.Search(keys[i])
+		}
+	}
+
+	elapsed := time.Since(start)
+	fmt.Println("该函数执行完成耗时：", elapsed)
+	timeNum := elapsed.Microseconds()   //   us
+	fmt.Println("查询交易" ,timeNum, "us")
+	fmt.Println("size = ", size)
+	fmt.Println()
+	return timeNum
+}
+
+
+
 
 func main() {
+	times := make([]int64, 5)
+	times[0] = Search_In_ART_1w(500000)
+	times[1] = Search_In_ART_1w(1000000)
+	times[2] = Search_In_ART_1w(1500000)
+	times[3] = Search_In_ART_1w(2000000)
+	times[4] = Search_In_ART_1w(2500000)
+
+	fmt.Println(times)
 
 }

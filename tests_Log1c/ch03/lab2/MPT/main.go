@@ -67,10 +67,49 @@ func Search_In_MPT()  {
 
 
 
+func Search_In_MPT_1w(size int)  int64 {
+
+	search_size := 10000
+	keys, value := makeAccounts(size)
+	fra := size / search_size  //  500w / 1w = 500
+
+	count := 0
+
+	tree := NewTrie()
+	for j := 0; j < size; j++ {
+		tree.Put(keys[j],value)
+	}
+
+	start := time.Now() // 获取当前时间
+
+	for i := 0; i < size; i++ {
+		if i % fra == 0 {
+			count++
+			tree.Get(keys[i])
+		}
+	}
+
+	elapsed := time.Since(start)
+	fmt.Println("该函数执行完成耗时：", elapsed)
+	timeNum := elapsed.Microseconds()   //   us
+	fmt.Println("查询交易" ,timeNum, "us")
+	fmt.Println("size = ", size)
+	fmt.Println()
+	return timeNum
+}
+
+
+
+
 func main() {
+	times := make([]int64, 5)
+	times[0] = Search_In_MPT_1w(500000)
+	times[1] = Search_In_MPT_1w(1000000)
+	times[2] = Search_In_MPT_1w(1500000)
+	times[3] = Search_In_MPT_1w(2000000)
+	times[4] = Search_In_MPT_1w(2500000)
 
-
-
-
+	fmt.Println(times)
 
 }
+
