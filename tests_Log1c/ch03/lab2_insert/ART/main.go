@@ -1,0 +1,126 @@
+/**
+ * @Author: Log1c
+ * @Description:
+ * @File:  lab
+ * @Version: 1.0.0
+ * @Date: 2023/2/27 20:49
+ */
+
+package main
+
+import (
+	"fmt"
+	art "github.com/plar/go-adaptive-radix-tree"
+	"math/rand"
+	"time"
+)
+
+
+func Search_In_ART()  {
+	size := 25000000
+
+	keys, value := makeAccounts(size)
+	//keys1, _ := makeAccounts(10000)
+
+	var Search_1w func(tree art.Tree,  curSize int )
+	Search_1w = func( tree art.Tree, curSize int) {
+		search_size := 10000
+		fra := curSize / search_size  //  1000w / 1w = 1000
+		count := 0
+		for i := 0; i < curSize; i++ {
+			if i % fra == 0 {
+				count++
+				tree.Search(keys[i])
+			}
+		}
+		fmt.Println(count)
+	}
+
+	sizeNum := []int{5000000, 10000000, 15000000, 20000000, 25000000}
+	timeSize := 5
+	times := make([]int64, timeSize)
+	timeCount := 0
+
+	for i := 0; i < 5; i++ {
+		tree := art.New()
+		for j := 0; j < sizeNum[i]; j++ {
+			tree.Insert(keys[i],value)
+		}
+		fmt.Println(sizeNum[i])   //
+		start := time.Now() // 获取当前时间
+		Search_1w(tree, sizeNum[i])
+
+		elapsed := time.Since(start)
+		fmt.Println("该函数执行完成耗时：", elapsed)
+		times[timeCount] = elapsed.Microseconds()
+		timeCount++
+	}
+	fmt.Println(times)
+}
+
+
+
+func build_ART(size int)  int64 {
+	keys, value := makeAccounts(size)
+
+	start := time.Now() // 获取当前时间
+
+	tree := art.New()
+	for j := 0; j < size; j++ {
+		tree.Insert(keys[j],value)
+	}
+
+	elapsed := time.Since(start)
+	timeNum := elapsed.Microseconds()   //   us
+	fmt.Println("size = ", size)
+	fmt.Println("Build 耗时：", elapsed)
+	fmt.Println("Insert 耗时：" ,timeNum, "us")
+	fmt.Println()
+	return timeNum
+}
+
+
+
+// 可以测算 Insert 时间 和 空间大小
+
+func Insert_time() {
+	times := make([]int64, 8)
+	times[0] = build_ART(1000000)
+	times[1] = build_ART(2000000)
+	times[2] = build_ART(3000000)
+	times[3] = build_ART(4000000)
+
+	times[4] = build_ART( 5000000)
+	times[5] = build_ART(10000000)
+	times[6] = build_ART(15000000)
+	times[7] = build_ART(20000000)
+
+	fmt.Println(times)
+	time.Sleep(1 * time.Hour)
+}
+
+
+
+func main() {
+	Insert_time()
+
+}
+
+
+
+
+func makeAccounts(size int) (addresses [][]byte, value []byte) {
+	// Make the random benchmark deterministic
+	random := rand.New(rand.NewSource(0))
+	addresses = make([][]byte, size)
+	for i := 0; i < size; i++ {
+		k := make([]byte, 20)
+		random.Read(k)
+		addresses[i] = k
+	}
+
+	value = make([]byte, 100)
+	random.Read(value)
+	return
+}
+
